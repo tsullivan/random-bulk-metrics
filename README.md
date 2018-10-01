@@ -6,7 +6,7 @@ Node CLI app for spitting out time-based metric data in bulk format.
 
 1. `npm link`
 2. `random-bulk-metrics | pbcopy`
-3. Paste the output into Kibana's Console: https://www.elastic.co/guide/en/kibana/current/console-kibana.html
+3. Paste the output into [Kibana's Console](https://www.elastic.co/guide/en/kibana/current/console-kibana.html)
 
 ## Options 
 The defaults generate 500 documents with timestamps spread evenly over the last 1 year.

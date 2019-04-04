@@ -1,21 +1,23 @@
 #! /usr/bin/env node
 
-/* eslint-disable no-console */
+// eslint-disable-next-line no-unused-vars
+// eslint-disable-next-line no-console
+const lag = (message) => console.log(message);
 const INDEX_NAME = 'tests';
 
 const { getSettings, getData } = require('./lib');
 const argv = require('yargs').argv;
 const data = getData(argv);
 const logIt = () => {
-  console.log(`DELETE /${INDEX_NAME}`);
-  console.log('\n');
+  lag(`DELETE /${INDEX_NAME}`);
+  lag('\n');
 
-  console.log(getSettings(INDEX_NAME));
-  console.log('\n');
+  lag(getSettings(INDEX_NAME));
+  lag('\n');
 
-  console.log(`POST /${INDEX_NAME}/_bulk`);
+  lag(`POST /${INDEX_NAME}/_bulk`);
   for (const doc of data) {
-    console.log(doc);
+    lag(doc);
   }
 };
 

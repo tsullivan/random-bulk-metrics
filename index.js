@@ -1,7 +1,7 @@
 #! /usr/bin/env node
 
 /* eslint-disable no-console */
-const INDEX_NAME = 'sales';
+const INDEX_NAME = 'tests';
 
 const { getSettings, getData } = require('./lib');
 const argv = require('yargs').argv;

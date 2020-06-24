@@ -3,13 +3,11 @@
 // eslint-disable-next-line no-unused-vars
 // eslint-disable-next-line no-console
 const lag = (message) => console.log(message);
+const INDEX_NAME = 'tests';
 
 const { getSettings, getData } = require('./lib');
 const argv = require('yargs').argv;
 const data = getData(argv);
-
-const INDEX_NAME = argv.index || 'tests';
-
 const logIt = () => {
   lag(`DELETE /${INDEX_NAME}`);
   lag('\n');

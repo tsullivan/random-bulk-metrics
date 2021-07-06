@@ -1,4 +1,4 @@
-function getSettings(INDEX_PREFIX) {
+function getSettings(INDEX_PREFIX: string) {
   const settings = {
     settings: {
       number_of_shards: 1,

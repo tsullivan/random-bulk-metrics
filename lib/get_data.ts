@@ -12,7 +12,7 @@ const getName = () => {
   const term = Array(Math.ceil(Math.random() * 20));
 
   for (let i = term.length; i > 0; i--) {
-    const kind = sample(['vowels', 'vowels', 'consos']);
+    const kind: 'vowels' | 'consos' = sample(['vowels', 'vowels', 'consos']);
     term.push([
       sample(charGroups[kind]),
     ]);
@@ -38,7 +38,12 @@ function getIp() {
   ].join('.');
 }
 
-function getData(args, someNumber) {
+interface Args {
+  date: string;
+  spread: number;
+}
+
+function getData(args: Args, someNumber: number) {
   const { date: argDate, spread: argSpread } = args;
 
   const SPREAD = argSpread || 500;

@@ -1,5 +1,5 @@
-const moment = require('moment');
-const { sample } = require('lodash');
+import moment from 'moment';
+import { sample } from 'lodash';
 const { random, round, ceil } = Math;
 
 const countries = [ 'BF', 'KH', 'DJ', 'DO', 'GL', 'PS' ];
@@ -12,7 +12,7 @@ const getName = () => {
   const term = Array(Math.ceil(Math.random() * 20));
 
   for (let i = term.length; i > 0; i--) {
-    const kind: 'vowels' | 'consos' = sample(['vowels', 'vowels', 'consos']);
+    const kind = sample(['vowels', 'vowels', 'consos']) as 'vowels' | 'consos';
     term.push([
       sample(charGroups[kind]),
     ]);
@@ -39,11 +39,11 @@ function getIp() {
 }
 
 interface Args {
-  date: string;
+  date: number;
   spread: number;
 }
 
-function getData(args: Args, someNumber: number) {
+export function getData(args: Args, someNumber: number) {
   const { date: argDate, spread: argSpread } = args;
 
   const SPREAD = argSpread || 500;
@@ -83,5 +83,3 @@ function getData(args: Args, someNumber: number) {
 
   return output;
 }
-
-module.exports = { getData };

@@ -1,4 +1,4 @@
-function getSettings(INDEX_PREFIX: string) {
+export function getSettings(INDEX_PREFIX: string) {
   const settings = {
     settings: {
       number_of_shards: 1,
@@ -37,7 +37,3 @@ function getSettings(INDEX_PREFIX: string) {
   output.push('}');
   return output.join('\n');
 }
-
-module.exports = {
-  getSettings
-};

@@ -1,11 +1,9 @@
-#! /usr/bin/env node
+import { getSettings, getData } from './lib';
+const argv = require('yargs').argv;
 
 // eslint-disable-next-line no-console
 const lag = (message: string) => console.log(message);
 const INDEX_PREFIX = 'tests-';
-
-import { getSettings, getData } from './lib';
-const argv = require('yargs').argv;
 
 const data1 = getData(argv, 1);
 const data2 = getData(argv, 2);

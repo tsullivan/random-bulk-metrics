@@ -1,4 +1,5 @@
-import { getSettings, getData } from './lib';
+import { getSettings } from './get_settings';
+import { getData } from './get_data';
 const argv = require('yargs').argv;
 
 // eslint-disable-next-line no-console
@@ -10,7 +11,9 @@ const data2 = getData(argv, 2);
 const data3 = getData(argv, 3);
 
 const logIt = () => {
-  lag(`DELETE /${INDEX_PREFIX}*`);
+  lag(`DELETE /${INDEX_PREFIX}001`);
+  lag(`DELETE /${INDEX_PREFIX}002`);
+  lag(`DELETE /${INDEX_PREFIX}003`);
   lag('\n');
 
   lag(getSettings(INDEX_PREFIX));

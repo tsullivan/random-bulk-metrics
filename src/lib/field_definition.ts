@@ -1,4 +1,4 @@
-export type MappingTypeValue = 'date' | 'keyword' | 'integer' | 'ip';
+export type MappingTypeValue = 'date' | 'keyword' | 'integer' | 'ip' | 'object';
 
 export interface FieldDefinition<T> {
   readonly name: string;

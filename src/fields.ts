@@ -9,7 +9,7 @@ const countries = [
   'SR', 'SJ', 'SZ', 'SE', 'CH', 'SY', 'TJ', 'TH', 'TG', 'TK', 'TO', 'TT', 'AE', 'TN',
   'TR', 'TM', 'TC', 'TV', 'UG', 'UA', 'MK', 'EG', 'GB', 'GG', 'JE', 'IM', 'TZ', 'US',
   'BF', 'KH', 'DJ', 'DO', 'GL', 'PS'
-];
+]; // prettier-ignore
 type CharGroup = 'vowels' | 'consos' | 'other';
 type CharGroups = Record<CharGroup, string[]>;
 
@@ -19,7 +19,7 @@ const charGroups: CharGroups = {
   other: ['慮', '慮', '慶', '畬', '獥', '漠', '敭', 'Ⱒ'],
 };
 
-export const fields: FieldDefinition<number | string>[] = [
+export const fields: FieldDefinition<number | string | object>[] = [
   {
     name: 'name',
     type: 'keyword',
@@ -88,6 +88,18 @@ export const fields: FieldDefinition<number | string>[] = [
     type: 'keyword',
     getValue() {
       return random() * 10000 >= 9990 ? 'error' : 'ok';
+    },
+  },
+  {
+    name: 'payload',
+    type: 'object',
+    getValue() {
+      return {
+        inventory_uuid: 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa',
+        vrm: 'AA00AAA',
+        vin: 'AAAAAAAAAAAAAAAAA',
+        mileage: 11111,
+      };
     },
   },
 ];

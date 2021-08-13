@@ -1,6 +1,7 @@
 import { FieldDefinition } from './lib/field_definition';
 import moment from 'moment';
 import { sample } from 'lodash';
+
 const { random, round, ceil } = Math;
 
 const countries = [
@@ -10,6 +11,7 @@ const countries = [
   'TR', 'TM', 'TC', 'TV', 'UG', 'UA', 'MK', 'EG', 'GB', 'GG', 'JE', 'IM', 'TZ', 'US',
   'BF', 'KH', 'DJ', 'DO', 'GL', 'PS'
 ]; // prettier-ignore
+
 type CharGroup = 'vowels' | 'consos' | 'other';
 type CharGroups = Record<CharGroup, string[]>;
 
@@ -20,6 +22,13 @@ const charGroups: CharGroups = {
 };
 
 export const fields: FieldDefinition<number | string | object>[] = [
+  {
+    name: '@timestamp',
+    type: 'date',
+    getValue(time) {
+      return moment.utc(time).format();
+    },
+  },
   {
     name: 'name',
     type: 'keyword',
@@ -37,20 +46,6 @@ export const fields: FieldDefinition<number | string | object>[] = [
     },
   },
   {
-    name: '@timestamp',
-    type: 'date',
-    getValue(time) {
-      return moment.utc(time).format();
-    },
-  },
-  {
-    name: 'interface',
-    type: 'keyword',
-    getValue() {
-      return sample(countries) as string;
-    },
-  },
-  {
     name: 'ip',
     type: 'keyword',
     getValue() {
@@ -63,27 +58,6 @@ export const fields: FieldDefinition<number | string | object>[] = [
     },
   },
   {
-    name: 'utilization',
-    type: 'integer',
-    getValue(_time, iteration) {
-      return round(random() * iteration * 10000);
-    },
-  },
-  {
-    name: 'field_a',
-    type: 'integer',
-    getValue(_time, iteration) {
-      return iteration;
-    },
-  },
-  {
-    name: 'field_b',
-    type: 'integer',
-    getValue(_time, _iteration, inversation) {
-      return inversation;
-    },
-  },
-  {
     name: 'status',
     type: 'keyword',
     getValue() {
@@ -91,15 +65,15 @@ export const fields: FieldDefinition<number | string | object>[] = [
     },
   },
   {
-    name: 'payload',
-    type: 'object',
-    getValue() {
-      return {
-        inventory_uuid: 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa',
-        vrm: 'AA00AAA',
-        vin: 'AAAAAAAAAAAAAAAAA',
-        mileage: 11111,
-      };
+    name: 'utilization',
+    type: 'integer',
+    getValue(_time, iteration) {
+      return round(random() * iteration * 10000);
     },
   },
+  /*
+  { name: 'country', type: 'keyword', getValue() { return sample(countries) as string; }, },
+  { name: 'field_a', type: 'integer', getValue(_time, iteration) { return iteration; }, }, { name: 'field_b', type: 'integer', getValue(_time, _iteration, inversation) { return inversation; }, },
+  { name: 'payload', type: 'object', getValue() { return { inventory_uuid: 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', vrm: 'AA00AAA', vin: 'AAAAAAAAAAAAAAAAA', mileage: 11111, }; }, },
+   */
 ];

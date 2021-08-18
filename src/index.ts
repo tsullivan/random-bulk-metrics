@@ -6,17 +6,31 @@ const argv = require('yargs').argv;
 const lag = (message: string) => console.log(message);
 const INDEX_PREFIX = 'tests-';
 
-const data1 = getData(argv, 1);
+const data = getData(argv, 1);
+
+type DataSetName = '001' | '002' | '003';
+const sets: DataSetName[] = ['001', '002', '003'];
 
 const logIt = () => {
-  lag(`DELETE /${INDEX_PREFIX}001`);
+  for (const set of sets) {
+    lag(`DELETE /${INDEX_PREFIX}${set}`);
+  }
 
+  const template = JSON.stringify(getSettings());
   lag(`PUT /_template/${INDEX_PREFIX}dev`);
-  lag(`{ "index_patterns": ["${INDEX_PREFIX}*"], "template": ${JSON.stringify(getSettings())} }`);
+  lag(`{ "index_patterns": ["${INDEX_PREFIX}*"], "template": ${template} }`);
 
-  lag(`POST /${INDEX_PREFIX}001/_doc/_bulk`);
-  for (const doc of data1) {
-    lag(doc);
+  const datasets: Record<DataSetName, string[]> = {
+    '001': data.slice(0, data.length / 3),
+    '002': data.slice(data.length / 3, (data.length / 3) * 2),
+    '003': data.slice((data.length / 3) * 2),
+  };
+
+  for (const set of sets) {
+    lag(`POST /${INDEX_PREFIX}${set}/_doc/_bulk`);
+    for (const doc of datasets[set]) {
+      lag(doc);
+    }
   }
 };
 

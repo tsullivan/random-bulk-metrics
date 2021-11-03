@@ -21,7 +21,7 @@ const charGroups: CharGroups = {
   other: ['慮', '慮', '慶', '畬', '獥', '漠', '敭', 'Ⱒ'],
 };
 
-export const fields: FieldDefinition<number | string | object>[] = [
+export const fields: FieldDefinition<number | string | object | null>[] = [
   {
     name: '@timestamp',
     type: 'date',
@@ -71,8 +71,8 @@ export const fields: FieldDefinition<number | string | object>[] = [
       return round(random() * iteration * 10000);
     },
   },
-  /*
   { name: 'country', type: 'keyword', getValue() { return sample(countries) as string; }, },
+  /*
   { name: 'field_a', type: 'integer', getValue(_time, iteration) { return iteration; }, }, { name: 'field_b', type: 'integer', getValue(_time, _iteration, inversation) { return inversation; }, },
   { name: 'payload', type: 'object', getValue() { return { inventory_uuid: 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', vrm: 'AA00AAA', vin: 'AAAAAAAAAAAAAAAAA', mileage: 11111, }; }, },
    */

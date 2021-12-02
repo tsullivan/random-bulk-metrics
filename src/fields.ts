@@ -71,6 +71,13 @@ export const fields: FieldDefinition<number | string | object | null>[] = [
       return round(random() * iteration * 10000);
     },
   },
+  {
+    name: 'never',
+    type: 'integer',
+    getValue() {
+      return null;
+    },
+  },
   { name: 'country', type: 'keyword', getValue() { return sample(countries) as string; }, },
   /*
   { name: 'field_a', type: 'integer', getValue(_time, iteration) { return iteration; }, }, { name: 'field_b', type: 'integer', getValue(_time, _iteration, inversation) { return inversation; }, },

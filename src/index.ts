@@ -17,7 +17,7 @@ const logIt = () => {
   }
 
   const template = JSON.stringify(getSettings());
-  lag(`PUT /_template/${INDEX_PREFIX}dev`);
+  lag(`PUT /_index_template/${INDEX_PREFIX}dev`);
   lag(`{ "index_patterns": ["${INDEX_PREFIX}*"], "template": ${template} }`);
 
   const datasets: Record<DataSetName, string[]> = {
@@ -27,7 +27,7 @@ const logIt = () => {
   };
 
   for (const set of sets) {
-    lag(`POST /${INDEX_PREFIX}${set}/_doc/_bulk`);
+    lag(`POST /${INDEX_PREFIX}${set}/_bulk`);
     for (const doc of datasets[set]) {
       lag(doc);
     }

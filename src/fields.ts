@@ -39,7 +39,7 @@ export const fields: FieldDefinition<number | string | object | null>[] = [
     name: 'updated_at',
     type: 'date',
     getValue(time, iteration) {
-      if (iteration % 8 === 0) {
+      if (iteration > 500 && iteration % 11 === 0) {
         return moment.utc(time).subtract(2, 'days').format();
       }
       return null;

@@ -10,13 +10,6 @@ export function getSettings() {
     {}
   );
 
-  const runtime = {
-    ab_sum: {
-      type: 'long',
-      script: { source: `emit(doc['field_a'].value + doc['field_b'].value)` },
-    },
-  } ;
-
   return {
     settings: { number_of_shards: 1, number_of_replicas: 0 },
     mappings: { properties /*, runtime */ },

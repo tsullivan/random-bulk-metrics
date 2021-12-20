@@ -34,7 +34,7 @@ export function getData(
     const result = fields.reduce(
       (acc, field) => ({
         ...acc,
-        [field.name]: field.getValue(time, iterations, inverseration),
+        [field.name]: field.getValue(time, inverseration),
       }),
       {}
     );

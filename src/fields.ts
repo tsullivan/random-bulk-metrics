@@ -2,16 +2,6 @@ import { FieldDefinition } from './lib/field_definition';
 import moment from 'moment';
 import { sample } from 'lodash';
 
-const { random, round, ceil } = Math;
-
-const countries = [
-  'RU', 'RW', 'BL', 'SH', 'KN', 'AI', 'LC', 'MF', 'PM', 'VC', 'SM', 'ST', 'SA', 'SN',
-  'RS', 'SC', 'SL', 'SG', 'SK', 'VN', 'SI', 'SO', 'ZA', 'ZW', 'ES', 'SS', 'EH', 'SD',
-  'SR', 'SJ', 'SZ', 'SE', 'CH', 'SY', 'TJ', 'TH', 'TG', 'TK', 'TO', 'TT', 'AE', 'TN',
-  'TR', 'TM', 'TC', 'TV', 'UG', 'UA', 'MK', 'EG', 'GB', 'GG', 'JE', 'IM', 'TZ', 'US',
-  'BF', 'KH', 'DJ', 'DO', 'GL', 'PS'
-]; // prettier-ignore
-
 type CharGroup = 'vowels' | 'consos' | 'other';
 type CharGroups = Record<CharGroup, string[]>;
 
@@ -46,41 +36,13 @@ export const fields: FieldDefinition<number | string | object | null>[] = [
     },
   },
   {
-    name: 'ip',
-    type: 'keyword',
-    getValue() {
-      return [
-        ceil(random() * 254),
-        ceil(random() * 254),
-        ceil(random() * 254),
-        ceil(random() * 254),
-      ].join('.');
-    },
-  },
-  {
-    name: 'status',
-    type: 'keyword',
-    getValue() {
-      return random() * 10000 >= 9990 ? 'error' : 'ok';
-    },
-  },
-  {
-    name: 'utilization',
-    type: 'integer',
-    getValue(_time, iteration) {
-      return round(random() * iteration * 10000);
-    },
-  },
-  {
-    name: 'never',
-    type: 'integer',
-    getValue() {
+    name: 'updated_at',
+    type: 'date',
+    getValue(time, iteration) {
+      if (iteration % 8 === 0) {
+        return moment.utc(time).subtract(2, 'days').format();
+      }
       return null;
     },
   },
-  { name: 'country', type: 'keyword', getValue() { return sample(countries) as string; }, },
-  /*
-  { name: 'field_a', type: 'integer', getValue(_time, iteration) { return iteration; }, }, { name: 'field_b', type: 'integer', getValue(_time, _iteration, inversation) { return inversation; }, },
-  { name: 'payload', type: 'object', getValue() { return { inventory_uuid: 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', vrm: 'AA00AAA', vin: 'AAAAAAAAAAAAAAAAA', mileage: 11111, }; }, },
-   */
 ];

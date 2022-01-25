@@ -11,15 +11,15 @@ const charGroups: CharGroups = {
   other: ['慮', '慮', '慶', '畬', '獥', '漠', '敭', 'Ⱒ'],
 };
 
-export const fields: FieldDefinition<number | string | object | null>[] = [
-  {
+export const fields: FieldDefinition<number | string | null>[] = [
+  <FieldDefinition<string>>{
     name: '@timestamp',
     type: 'date',
     getValue(time) {
       return moment.utc(time).format();
     },
   },
-  {
+  <FieldDefinition<string>>{
     name: 'name',
     type: 'keyword',
     getValue(_time, iteration) {
@@ -35,7 +35,7 @@ export const fields: FieldDefinition<number | string | object | null>[] = [
       return term.join('');
     },
   },
-  {
+  <FieldDefinition<string | null>>{
     name: 'updated_at',
     type: 'date',
     getValue(time, iteration) {
@@ -43,6 +43,13 @@ export const fields: FieldDefinition<number | string | object | null>[] = [
         return moment.utc(time).subtract(2, 'days').format();
       }
       return null;
+    },
+  },
+  <FieldDefinition<number>>{
+    name: '_timestamp',
+    type: 'float',
+    getValue(time) {
+      return moment.utc(time).subtract(2, 'days').valueOf()
     },
   },
 ];

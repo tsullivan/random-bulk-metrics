@@ -13,7 +13,7 @@ const charGroups: CharGroups = {
 
 export const fields: FieldDefinition<number | string | null>[] = [
   <FieldDefinition<string>>{
-    name: '@timestamp',
+    name: 'timestamp',
     type: 'date',
     getValue(time) {
       return moment.utc(time).format();
@@ -43,13 +43,6 @@ export const fields: FieldDefinition<number | string | null>[] = [
         return moment.utc(time).subtract(2, 'days').format();
       }
       return null;
-    },
-  },
-  <FieldDefinition<number>>{
-    name: '_timestamp',
-    type: 'float',
-    getValue(time) {
-      return moment.utc(time).subtract(2, 'days').valueOf()
     },
   },
 ];

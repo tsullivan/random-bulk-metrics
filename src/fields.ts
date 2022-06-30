@@ -1,6 +1,7 @@
 import { FieldDefinition } from './lib/field_definition';
 import moment from 'moment';
 import { sample } from 'lodash';
+import { MappingTypeProperties } from './get_settings';
 
 type CharGroup = 'vowels' | 'consos' | 'other';
 type CharGroups = Record<CharGroup, string[]>;
@@ -40,17 +41,44 @@ export const fields: FieldDefinition[] = [
   <FieldDefinition<string | null>>{
     name: 'updated_at',
     type: 'date',
-    getValue(time, iteration) {
+    getValue(time) {
       return moment.utc(time).subtract(2, 'days').format();
     },
   },
-  <FieldDefinition<any>>{
+  <FieldDefinition<ArticleDocumentSet>>{
     name: 'articles',
     type: 'nested',
     getValue() {
-      return new ArticleDocumentSet().getInnerDocuments();
+      return new ArticleDocumentSet<IArticleDocument>({
+        getSettingsFn: () => ({
+          type: { type: 'keyword' },
+          language: { type: 'keyword' },
+        }),
+        getDocumentFn: () => {
+          const docs: Array<IArticleDocument> = [];
+          const size = (random() * 4) + 1;
+          for (let i = 0; i < size; i++) {
+            docs.push({
+              type: 'article',
+              language: 'en',
+              get titel() {
+                return sample([
+                  'All Your Knowledge Base.',
+                  'Orders',
+                  'Daily Deals',
+                  'Monthly Reports',
+                  'Access To Your Order',
+                ]) as string;
+              },
+              id: round(random() * 1000 + 1000),
+            });
+          }
+
+          return docs;
+        },
+      });
     },
-  }
+  },
 ];
 
 interface IArticleDocument {
@@ -60,22 +88,16 @@ interface IArticleDocument {
   id: number;
 }
 
-class ArticleDocumentSet {
-  private createTitel() {
-    return sample([
-      'Welcome to the Knowledge Base.',
-      'Orders',
-      'Bestellung öffnen',
-      'Confirm Order & Confirmation Status',
-      'Access to your order',
-    ]) as string;
-  }
-  public getInnerDocuments(): IArticleDocument {
-    return ({
-      language: 'en',
-      type: 'article',
-      titel: this.createTitel(),
-      id: round(random() * 1000 + 1000),
-    });
+interface ArticleDocumentSetOpts<T> {
+  getDocumentFn: () => Array<T>;
+  getSettingsFn: () => MappingTypeProperties;
+}
+
+export class ArticleDocumentSet<T = unknown> {
+  public getDocument: ArticleDocumentSetOpts<T>['getDocumentFn'];
+  public getSettings: ArticleDocumentSetOpts<T>['getSettingsFn'];
+  constructor({ getDocumentFn, getSettingsFn }: ArticleDocumentSetOpts<T>) {
+    this.getDocument = getDocumentFn;
+    this.getSettings = getSettingsFn;
   }
 }

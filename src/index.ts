@@ -4,7 +4,7 @@ const argv = require('yargs').argv;
 
 // eslint-disable-next-line no-console
 const lag = (message: string) => console.log(message);
-const INDEX_PREFIX = 'logstash-';
+const INDEX_PREFIX = 'articles-';
 
 const data = getData(argv, 1);
 

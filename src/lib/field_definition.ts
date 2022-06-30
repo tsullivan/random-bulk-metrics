@@ -1,8 +1,7 @@
-import { ArticleDocumentSet } from "src/fields";
+import { ArticleDocumentSet, Person, LabelDocuments } from "src/fields";
+import { MappingTypeValue } from "src/get_settings";
 
-export type MappingTypeValue = 'date' | 'keyword' | 'float' | 'integer' | 'ip' | 'object' | 'nested';
-
-export interface FieldDefinition<T = number | string | null | ArticleDocumentSet> {
+export interface FieldDefinition<T = number | string | null | ArticleDocumentSet | LabelDocuments | Person> {
   readonly name: string;
   readonly type: MappingTypeValue;
   getValue(time: number, iteration: number): T;

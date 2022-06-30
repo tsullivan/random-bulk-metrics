@@ -3,5 +3,5 @@ export type MappingTypeValue = 'date' | 'keyword' | 'float' | 'integer' | 'ip' |
 export interface FieldDefinition<T = number | string | null> {
   readonly name: string;
   readonly type: MappingTypeValue;
-  getValue(time: number, iteration: number): T | Promise<T>;
+  getValue(time: number, iteration: number): T;
 }

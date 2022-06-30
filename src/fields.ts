@@ -17,8 +17,7 @@ export const fields: FieldDefinition[] = [
   <FieldDefinition<string>>{
     name: 'timestamp',
     type: 'date',
-    async getValue(time) {
-      await new Promise((resolve) => { setTimeout (resolve, 22); });
+    getValue(time) {
       return moment.utc(time).format();
     },
   },

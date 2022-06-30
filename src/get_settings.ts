@@ -5,6 +5,7 @@ export type MappingTypeValue =
   | 'keyword'
   | 'float'
   | 'integer'
+  | 'integer_range'
   | 'ip'
   | 'object'
   | 'nested'

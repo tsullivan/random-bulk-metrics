@@ -34,8 +34,8 @@ export function getData(
     const result = fields.reduce((acc, field) => {
       const rawValue = field.getValue(time, inverseration) as ArticleDocumentSet | null;
       let value: unknown | undefined;
-      if (rawValue?.getDocument) {
-        value = rawValue.getDocument();
+      if (rawValue?.getValueData) {
+        value = rawValue.getValueData();
       }
 
       return {

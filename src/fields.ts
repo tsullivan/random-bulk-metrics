@@ -21,7 +21,7 @@ export const fields: FieldDefinition[] = [
     type: 'object',
     getValue(_, iteration) {
       return new Person({
-        getDocumentFn() {
+        getValueDocumentFn() {
           return {
             name: {
               first: createName(iteration),
@@ -49,7 +49,7 @@ export const fields: FieldDefinition[] = [
           type: { type: 'keyword' },
           language: { type: 'keyword' },
         }),
-        getDocumentFn: () => {
+        getValueDocumentFn: () => {
           const docs: Array<IArticleDocument> = [];
           const size = random() * 4 + 1;
           for (let i = 0; i < size; i++) {
@@ -97,6 +97,13 @@ export const fields: FieldDefinition[] = [
       }));
     },
   },
+  <FieldDefinition<AttendeeRange>>{
+    name: 'expected_attendees',
+    type: 'integer_range',
+    getValue() {
+      return new AttendeeRange();
+    },
+  },
 ];
 
 export interface IArticleDocument {
@@ -124,13 +131,13 @@ export interface IPerson {
 }
 
 interface PersonOpts {
-  getDocumentFn: () => IPerson;
+  getValueDocumentFn: () => IPerson;
 }
 
 export class Person {
-  public getDocument: PersonOpts['getDocumentFn'];
-  constructor({ getDocumentFn }: PersonOpts) {
-    this.getDocument = getDocumentFn;
+  public getValueData: PersonOpts['getValueDocumentFn'];
+  constructor({ getValueDocumentFn }: PersonOpts) {
+    this.getValueData = getValueDocumentFn;
   }
   getSettings(): MappingTypeProperties {
     return {
@@ -147,23 +154,23 @@ export class Person {
 }
 
 interface DocumentSetOpts<T> {
-  getDocumentFn: () => Array<T>;
+  getValueDocumentFn: () => Array<T>;
   getSettingsFn: () => MappingTypeProperties;
 }
 
 export class ArticleDocumentSet<T = unknown> {
-  public getDocument: DocumentSetOpts<T>['getDocumentFn'];
+  public getValueData: DocumentSetOpts<T>['getValueDocumentFn'];
   public getSettings: DocumentSetOpts<T>['getSettingsFn'];
-  constructor({ getDocumentFn, getSettingsFn }: DocumentSetOpts<T>) {
-    this.getDocument = getDocumentFn;
+  constructor({ getValueDocumentFn, getSettingsFn }: DocumentSetOpts<T>) {
+    this.getValueData = getValueDocumentFn;
     this.getSettings = getSettingsFn;
   }
 }
 
 export class LabelDocuments<T = unknown> {
-  public getDocument: () => T;
-  constructor(getDocumentFn: () => T) {
-    this.getDocument = getDocumentFn;
+  public getValueData: () => T;
+  constructor(getValueDocumentFn: () => T) {
+    this.getValueData = getValueDocumentFn;
   }
 }
 
@@ -185,3 +192,9 @@ const createName = (iteration: number) => {
   }
   return term.join('');
 };
+
+export class AttendeeRange {
+  public getValueData() {
+    return { gte: round(random() * 10), lt: round(random() * 10) + 20 };
+  }
+}

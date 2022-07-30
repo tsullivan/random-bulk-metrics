@@ -1,12 +1,8 @@
-import { sample } from 'lodash';
 import moment from 'moment';
 import { MappingTypeProperties } from 'src/get_settings';
 import { FieldDefinition } from 'src/lib/field_definition';
 
-type CharGroup = 'vowels' | 'consos' | 'other';
-type CharGroups = Record<CharGroup, string[]>;
-
-const { ceil, random, round } = Math;
+const { random, round } = Math;
 
 export const fields: FieldDefinition[] = [
   <FieldDefinition<string>>{
@@ -24,8 +20,8 @@ export const fields: FieldDefinition[] = [
         getValueDocumentFn() {
           return {
             name: {
-              first: createName(iteration),
-              last: createName(iteration),
+              first: 'tim',
+              last: 'sullivan',
             },
             age: 42 + iteration,
           };
@@ -109,25 +105,6 @@ export class LabelDocuments<T = unknown> {
     this.getValueData = getValueDocumentFn;
   }
 }
-
-const charGroups: CharGroups = {
-  vowels: ['a', 'e', 'i', 'o', 'u'],
-  consos: ['f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'y'],
-  other: ['慮', '慮', '慶', '畬', '獥', '漠', '敭', 'Ⱒ'],
-};
-
-const createName = (iteration: number) => {
-  if (iteration % 8 === 0) {
-    return sample(charGroups['other']) as string;
-  }
-  const term = Array(3 + ceil(random() * 7));
-  for (let i = term.length; i > 0; i--) {
-    const kind = sample(['vowels', 'vowels', 'consos']) as CharGroup;
-    const particle = sample(charGroups[kind]) as string;
-    term.push(particle);
-  }
-  return term.join('');
-};
 
 export class AttendeeRange {
   public getValueData() {

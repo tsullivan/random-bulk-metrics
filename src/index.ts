@@ -7,30 +7,22 @@ const lag = (message: string) => console.log(message);
 const INDEX_PREFIX = 'articles-';
 
 const data = getData(argv, 1);
-
-type DataSetName = '001' | '002' | '003';
-const sets: DataSetName[] = ['001', '002', '003'];
+const set = '001';
 
 const logIt = () => {
-  for (const set of sets) {
-    lag(`DELETE /${INDEX_PREFIX}${set}`);
-  }
+  lag(`DELETE /${INDEX_PREFIX}${set}`);
 
   const template = JSON.stringify(getSettings());
   lag(`PUT /_index_template/${INDEX_PREFIX}dev`);
   lag(`{ "index_patterns": ["${INDEX_PREFIX}*"], "template": ${template} }`);
 
-  const datasets: Record<DataSetName, string[]> = {
-    '001': data.slice(0, data.length / 3),
-    '002': data.slice(data.length / 3, (data.length / 3) * 2),
-    '003': data.slice((data.length / 3) * 2),
+  const datasets = {
+    '001': data,
   };
 
-  for (const set of sets) {
-    lag(`POST /${INDEX_PREFIX}${set}/_bulk`);
-    for (const doc of datasets[set]) {
-      lag(doc);
-    }
+  lag(`POST /${INDEX_PREFIX}${set}/_bulk`);
+  for (const doc of datasets[set]) {
+    lag(doc);
   }
 };
 

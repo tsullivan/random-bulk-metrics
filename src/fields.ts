@@ -2,6 +2,11 @@ import { FieldDefinition } from 'src/lib/field_definition';
 import { MappingTypeProperties } from 'src/get_settings';
 import moment from 'moment';
 
+/**
+ * @public
+ *
+ */
+
 export const fields: FieldDefinition[] = [
   <FieldDefinition<string>>{
     name: '@timestamp',
@@ -21,7 +26,7 @@ export const fields: FieldDefinition[] = [
               first: 'tim',
               last: 'sullivan',
             },
-            age: 42 + iteration,
+            age: iteration % 42,
           };
         },
       });
@@ -43,6 +48,11 @@ export const fields: FieldDefinition[] = [
   },
 ];
 
+/**
+ * Types
+ *
+ */
+
 interface IPerson {
   name: {
     first: string;
@@ -54,6 +64,11 @@ interface IPerson {
 interface PersonOpts {
   getValueDocumentFn: () => IPerson;
 }
+
+/**
+ * Classes
+ *
+ */
 
 class Person {
   public getValueData: PersonOpts['getValueDocumentFn'];

@@ -1,4 +1,4 @@
-import { ArticleDocumentSet, fields } from './fields';
+import { fields } from './fields';
 
 export type MappingTypeValue =
   | 'date'
@@ -17,17 +17,17 @@ export type MappingTypeProperties = Record<
 
 export function getSettings() {
   const properties: MappingTypeProperties = fields.reduce((acc, field) => {
-    let properties: MappingTypeProperties | undefined;
+    let ps: MappingTypeProperties | undefined;
     if (field.type === 'nested' || field.type === 'object') {
-      const articleDocumentSet = field.getValue(0, 0) as ArticleDocumentSet;
-      properties = articleDocumentSet.getSettings();
+      const articleDocumentSet = field.getValue(0, 0);
+      ps = articleDocumentSet.getSettings();
     }
 
     return {
       ...acc,
       [field.name]: {
         type: field.type,
-        properties,
+        ps,
       },
     };
   }, {});

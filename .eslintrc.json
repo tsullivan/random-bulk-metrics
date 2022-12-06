@@ -1,9 +1,7 @@
 {
   "env": { "node": true },
   "extends": [
-    "plugin:@typescript-eslint/recommended",
-    "prettier",
-    "prettier/@typescript-eslint"
+    "prettier"
   ],
   "overrides": [
     {

@@ -1,12 +1,10 @@
-import moment from 'moment';
-import { MappingTypeProperties } from 'src/get_settings';
 import { FieldDefinition } from 'src/lib/field_definition';
-
-const { random, round } = Math;
+import { MappingTypeProperties } from 'src/get_settings';
+import moment from 'moment';
 
 export const fields: FieldDefinition[] = [
   <FieldDefinition<string>>{
-    name: 'timestamp',
+    name: '@timestamp',
     type: 'date',
     getValue(time) {
       return moment.utc(time).format();
@@ -29,32 +27,23 @@ export const fields: FieldDefinition[] = [
       });
     },
   },
-  <FieldDefinition<string | null>>{
-    name: 'updated_at',
-    type: 'date',
-    getValue(time) {
-      return moment.utc(time).subtract(2, 'days').format();
+  <FieldDefinition<number>>{
+    name: 'metric',
+    type: 'integer',
+    getValue(_, iteration) {
+      return 777 + iteration;
+    },
+  },
+  <FieldDefinition<number>>{
+    name: 'wifi_hotspots_cardinality',
+    type: 'integer',
+    getValue(_, iteration) {
+      return 777 + iteration;
     },
   },
 ];
 
-export interface IArticleDocument {
-  language: string;
-  type: string;
-  titel: string;
-  id: number;
-}
-
-export interface ILabelDocument {
-  priority: string | undefined;
-  release: string[] | undefined;
-  timestamp: {
-    created: number;
-    closed: number;
-  };
-}
-
-export interface IPerson {
+interface IPerson {
   name: {
     first: string;
     last: string;
@@ -66,7 +55,7 @@ interface PersonOpts {
   getValueDocumentFn: () => IPerson;
 }
 
-export class Person {
+class Person {
   public getValueData: PersonOpts['getValueDocumentFn'];
   constructor({ getValueDocumentFn }: PersonOpts) {
     this.getValueData = getValueDocumentFn;
@@ -82,32 +71,5 @@ export class Person {
       },
       age: { type: 'integer' },
     };
-  }
-}
-
-interface DocumentSetOpts<T> {
-  getValueDocumentFn: () => Array<T>;
-  getSettingsFn: () => MappingTypeProperties;
-}
-
-export class ArticleDocumentSet<T = unknown> {
-  public getValueData: DocumentSetOpts<T>['getValueDocumentFn'];
-  public getSettings: DocumentSetOpts<T>['getSettingsFn'];
-  constructor({ getValueDocumentFn, getSettingsFn }: DocumentSetOpts<T>) {
-    this.getValueData = getValueDocumentFn;
-    this.getSettings = getSettingsFn;
-  }
-}
-
-export class LabelDocuments<T = unknown> {
-  public getValueData: () => T;
-  constructor(getValueDocumentFn: () => T) {
-    this.getValueData = getValueDocumentFn;
-  }
-}
-
-export class AttendeeRange {
-  public getValueData() {
-    return { gte: round(random() * 10), lt: round(random() * 10) + 20 };
   }
 }

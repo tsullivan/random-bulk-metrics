@@ -1,5 +1,5 @@
+import { fields } from './fields';
 import moment from 'moment';
-import { ArticleDocumentSet, fields } from './fields';
 
 export function getData(
   args: {
@@ -32,7 +32,7 @@ export function getData(
   while (iterations > 0) {
     const inverseration = SPREAD - iterations;
     const result = fields.reduce((acc, field) => {
-      const rawValue = field.getValue(time, inverseration) as ArticleDocumentSet | null;
+      const rawValue = field.getValue(time, inverseration);
       let value: unknown | undefined;
       if (rawValue?.getValueData) {
         value = rawValue.getValueData();
